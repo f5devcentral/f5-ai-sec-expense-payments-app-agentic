@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: ledgerloop-expense-demo-ui
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: F5_AI_SECURITY_PROJECT_TOKEN
+        sync: false
+      - key: F5_AI_SECURITY_BASE_URL
+        value: https://us1.calypsoai.app/
+      - key: F5_AI_SECURITY_CONNECTION_NAME
+        sync: false
+
+  - type: web
+    name: ledgerloop-expense-demo-api
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ORCHESTRATOR_API_TOKEN
+        sync: false
+      - key: F5_AI_SECURITY_PROJECT_TOKEN
+        sync: false
+      - key: F5_AI_SECURITY_BASE_URL
+        value: https://us1.calypsoai.app/
+      - key: F5_AI_SECURITY_CONNECTION_NAME
+        sync: false
